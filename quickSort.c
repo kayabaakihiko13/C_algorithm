@@ -1,43 +1,40 @@
 #include<stdio.h>
 
-void swap(int arr[],int i,int j){
-    int temp=arr[j];
-    arr[j]=arr[i];
-    arr[i]=temp;
+void swap(int *a,int *b){
+    int temp=*a;
+    *a=*b;
+    *b=temp;
 }
 
-void partition(int arr[],int low,int high){
-    if (low>=high) return;
-    int kunci=arr[low];
-    int i=low+1,j=high;
-    while(i<j){
-        while (i<j && arr[j]>=kunci)
-        {
-            --j;
-        }
-        while(i<j && arr[i]<=kunci){
-            ++i;
-        }
-        if (i<j){
-            swap(arr,i,j);
-        }
-    }
-    if (arr[low]>arr[i]){
-        swap(arr,low,i);
-        partition(arr,low,i-1);
-        partition(arr,i+1,high);
-    }
-    else
-    {
-        partition(arr,low+1,high);
-    }
+int partition(int arr[],int left,int right){
+    int pivot=arr[right];
+    int kusor=(left-1);
+    for(int i=left;i<right;i++){
+        // percabangan
+        if (arr[i]<=pivot){
+            // apabila syarat ini terpenuh
+            // kursor bertambah 1
+            kusor++;
+            // maka kusor dan index harus swapping
+            swap(&arr[kusor],&arr[i]);
 
+        }
+    }
+    swap(&arr[kusor+1],&arr[right]);
+    return (kusor+1);
 }
 
-void quickSort(int arr[],int size){
-    partition(arr,0,size-1);
-}
+void quickSort(int arr[],int left, int right){
+    if (left<right){
+        int pi=partition(arr,left,right);
+        // syarat terpenuhi kalau arraynya ke maka
+        // kekanan di kurangin atau bahasa itu nya dimundurin
 
+        quickSort(arr,left,pi-1);
+        // setelah itu bagian kanannya dikurangin
+        quickSort(arr,pi+1,right);
+    }
+}
 int main(){
     int data[]={1, 7, 4, 1, 10, 9, -2};
     int n=sizeof(data)/sizeof(data[0]);
@@ -46,7 +43,7 @@ int main(){
     }
     printf("\n");
 
-    quickSort(data,n);
+    quickSort(data,0,n-1);
     for (int i = 0; i < n; i++) {
         printf("%d ", data[i]);
     }
