@@ -1,9 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-float mse(float predict[],float true[],int n,int m){
+float mse(float *predict,float *true){
     float sum=0.0;
     float result;
+    int n =sizeof(predict)/sizeof(predict[0]);
+    int m=sizeof(true)/sizeof(true[0]);
     if (n!=m){
         printf("jumlah datanya tidak sama\n");
     }
@@ -21,5 +23,5 @@ int main(){
     float actual[] = {2.5, 3.4, 7.0, 7.4, 7.8, 3.9};
     int size_predict=sizeof(predict)/sizeof(predict[0]);
     int size_actual=sizeof(actual)/sizeof(predict[0]);
-    printf("hasil dari MSE adalah :%f\n",mse(predict,actual,size_predict,size_actual));
+    printf("hasil dari MSE adalah :%f\n",mse(predict,actual));
 }
