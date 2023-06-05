@@ -7,15 +7,18 @@ float mae(float *predict,float *actual){
     float sum=0;
     for(int i=0;i<m;i++)
     {
-        float dif= -(actual[i]-predict[i]);
-        sum+=dif;    
+        float dif= (predict[i]-actual[i]);
+        if (dif<0){
+            dif*=-1;
+        }
+        sum+=dif;
     }
-    return sum;
+    return sum/m;
 }
 
 int main(){
-    float predict[] = {1.5, 5.1, 7.3, 7.7, 8.0, 3.9};
-    float actual[] = {2.5, 3.4, 7.0, 7.4, 7.8, 3.9};
+    float predict[] = {1.5, 2.1, 7.3, 7.7, 8.0, 3.9};
+    float actual[] = {2.5, 2.4, 7.0, 7.0, 7.8, 3.9};
     printf("MAE:%f",mae(predict,actual));
     
 }
